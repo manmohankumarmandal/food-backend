@@ -1,6 +1,5 @@
 import express from "express";
 import mongoose from "mongoose";
-import bodyParser from "body-parser";
 import userRouter from "./routes/userRoute.js";
 import orderRouter from "./routes/orderRoute.js";
 import productRouter from "./routes/productRoute.js";
@@ -11,21 +10,24 @@ import addCartRouter from "./routes/addCartRoute.js";
 import getCartRouter from "./routes/getCartRoute.js";
 import cors from "cors";
 import dotenv from "dotenv";
+
 dotenv.config();
+
 const app = express();
 
-const port = process.env.PORT || 8000;
 const MONGODB_URI = process.env.MONGODB_URI;
 
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: "*",
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     preflightContinue: false,
     optionsSuccessStatus: 204,
-  }),
+  })
 );
+
 app.use(express.json());
+
 app.use("/api/users", userRouter);
 app.use("/api/orders", orderRouter);
 app.use("/api/product", productRouter);
@@ -38,16 +40,17 @@ app.use("/api/cart", getCartRouter);
 mongoose
   .connect(MONGODB_URI)
   .then(() => {
-    console.log("mongodb connected succesfully");
+    console.log("MongoDB connected successfully");
   })
   .catch((err) => {
-    console.error("MongoDB Error:");
-    console.error("Name:", err.name);
-    console.error("Message:", err.message);
-    console.error("Code:", err.code);
-    console.error(err);
+    console.error("MongoDB Error:", err);
   });
 
-app.listen(port, () => {
-  console.log(`app listen in ${port}`);
+app.get("/", (req, res) => {
+  res.json({
+    success: true,
+    message: "Food backend API is running",
+  });
 });
+
+export default app;
