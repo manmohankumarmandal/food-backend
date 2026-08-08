@@ -27,12 +27,19 @@ const createProduct = async (req, res) => {
 const getAllProduct = async (req, res) => {
   try {
     const allProduct = await product.find({});
-    if (!allProduct) {
-      return res.status(404).json({ message: "Product not found" });
-    }
-    return res.status(200).json({ allProduct });
+
+    return res.status(200).json({
+      success: true,
+      allProduct,
+    });
   } catch (err) {
-    return res.status(500).json({ message: "server error" });
+    console.error("GET ALL PRODUCT ERROR:", err);
+
+    return res.status(500).json({
+      success: false,
+      message: "server error",
+      error: err.message,
+    });
   }
 };
 const getProductById = async (req, res) => {
