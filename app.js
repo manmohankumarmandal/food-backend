@@ -19,10 +19,11 @@ const MONGODB_URI = process.env.MONGODB_URI;
 
 app.use(
   cors({
-    origin: "*",
-    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-    preflightContinue: false,
-    optionsSuccessStatus: 204,
+    origin: [
+      "http://localhost:5173",
+      "https://food-frontend-wheat.vercel.app"
+    ],
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"]
   })
 );
 
