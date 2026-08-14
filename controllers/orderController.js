@@ -31,17 +31,26 @@ const getAllOrders = async (req, res) => {
     return res.status(500).json({ message: "server error" });
   }
 };
-const getOrderById = async (req, res) => {
-  const { orderId } = req.params;
+const getOrdersByUserId = async (req, res) => {
+  const { userId } = req.params;
 
   try {
-    const order = await orders.findById(orderId);
-    if (!order) {
-      return res.status(404).json({ message: "order not found" });
-    }
-    return res.status(200).json({ success: true, order });
+    const orderData = await orders.find({
+      user: userId,
+    });
+
+    return res.status(200).json({
+      success: true,
+      orders: orderData,
+    });
+
   } catch (err) {
-    return res.status(500).json({ message: "server error" });
+    console.log(err);
+
+    return res.status(500).json({
+      success: false,
+      message: "server error",
+    });
   }
 };
 const updateOrder = async (req, res) => {
@@ -96,7 +105,7 @@ const deleteOrder = async (req, res) => {
 export default {
   createOrder,
   getAllOrders,
-  getOrderById,
+  getOrdersByUserId,
   updateOrder,
   deleteOrder,
 };
