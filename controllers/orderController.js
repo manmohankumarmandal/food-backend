@@ -31,8 +31,6 @@ const getAllOrders = async (req, res) => {
     return res.status(500).json({ message: "server error" });
   }
 };
-import mongoose from "mongoose";
-import orders from "../models/orderModel.js";
 
 const getOrdersByUserId = async (req, res) => {
   const { userId } = req.params;
@@ -57,7 +55,6 @@ const getOrdersByUserId = async (req, res) => {
       success: true,
       orders: orderData,
     });
-
   } catch (err) {
     console.log("GET ORDERS ERROR:", err);
 
@@ -69,7 +66,6 @@ const getOrdersByUserId = async (req, res) => {
   }
 };
 
-export default { getOrdersByUserId };
 const updateOrder = async (req, res) => {
   const { userId } = req.params;
   const { user, items, totalAmount, deleveryAddress } = req.body;
