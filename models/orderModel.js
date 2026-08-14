@@ -10,7 +10,7 @@ const orderSchema = new Schema({
     {
       foodId: {
         type: Schema.Types.ObjectId,
-        ref: "listModel",
+        ref: "List",
         required: true,
       },
 
