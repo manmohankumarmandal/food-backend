@@ -95,13 +95,14 @@ async function login(req, res) {
     });
 
   } catch (err) {
-    console.log(err);
+  console.log("LOGIN ERROR:", err);
 
-    return res.status(500).json({
-      success: false,
-      message: "Server error",
-    });
-  }
+  return res.status(500).json({
+    success: false,
+    message: "Server error",
+    error: err.message,
+  });
+}
 }
 
 
