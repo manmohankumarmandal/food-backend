@@ -57,33 +57,52 @@ async function login(req, res) {
     const user = await User.findOne({ email });
 
     if (!user) {
-      return res.status(401).json({ message: "credential error" });
+      return res.status(401).json({
+        success: false,
+        message: "Credential error",
+      });
     }
 
-    const isMatch = await bcrypt.compare(password, user.password);
+    const isMatch = await bcrypt.compare(
+      password,
+      user.password
+    );
 
     if (!isMatch) {
-      return res.status(401).json({ message: "Invalid credentials" });
+      return res.status(401).json({
+        success: false,
+        message: "Invalid credentials",
+      });
     }
 
     const token = jwt.sign(
-      { id: user._id, role: user.role },
+      {
+        id: user._id,
+        role: user.role,
+      },
       process.env.SECRET_KEY,
       {
         expiresIn: "1h",
-      },
+      }
     );
 
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
+      message: "Login successful",
       token,
       userId: user._id,
       role: user.role,
     });
+
   } catch (err) {
     console.log(err);
-    return res.status(500).send("Server error");
+
+    return res.status(500).json({
+      success: false,
+      message: "Server error",
+    });
   }
 }
+
 
 export default { signup, login };
