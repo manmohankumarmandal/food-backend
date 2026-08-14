@@ -9,7 +9,9 @@ async function signup(req, res) {
 
   try {
     if (!username || !email || !password) {
-      return res.json({ message: "Please fill all fields" });
+      return res.status(400).json({
+        message: "Please fill all fields",
+      });
     }
 
     const existingUser = await User.findOne({ email });
@@ -28,19 +30,23 @@ async function signup(req, res) {
     });
 
     const savedUser = await newUser.save();
-    const token = jwt.sign({ id: savedUser._id , role:savedUser.role}, process.env.SECRET_KEY, {
-      expiresIn: "7d",
-    });
+    const token = jwt.sign(
+      { id: savedUser._id, role: savedUser.role },
+      process.env.SECRET_KEY,
+      {
+        expiresIn: "7d",
+      },
+    );
 
     res.status(201).json({
       message: "User registered successfully",
       token: token,
       userId: savedUser._id,
-      role:savedUser.role
+      role: savedUser.role,
     });
   } catch (err) {
     console.log(err);
-    return res.status(500).json({message:"Server error"});
+    return res.status(500).json({ message: "Server error" });
   }
 }
 
@@ -60,9 +66,13 @@ async function login(req, res) {
       return res.status(401).json({ message: "Invalid credentials" });
     }
 
-    const token = jwt.sign({ id: user._id, role:user.role }, process.env.SECRET_KEY, {
-      expiresIn: "1h",
-    });
+    const token = jwt.sign(
+      { id: user._id, role: user.role },
+      process.env.SECRET_KEY,
+      {
+        expiresIn: "1h",
+      },
+    );
 
     res.status(200).json({
       success: true,
