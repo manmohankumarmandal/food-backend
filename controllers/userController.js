@@ -71,8 +71,10 @@ async function login(req, res) {
     );
 
     res.json({
+      success:true,
       token,
       userId: user._id,
+      role:user.role,
     });
 
   } catch (err) {

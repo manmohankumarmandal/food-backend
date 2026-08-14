@@ -19,7 +19,8 @@ const userSchema=new Schema({
     address:String,
     role:{
         type:String,
-        enum:["customer","admin","deliveryBoy"]
+        enum:["customer","admin","deliveryBoy"],
+        default:"customer",
     }
     
 });
