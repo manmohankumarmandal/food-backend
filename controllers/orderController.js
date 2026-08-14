@@ -46,9 +46,11 @@ const getOrdersByUserId = async (req, res) => {
       });
     }
 
-    const orderData = await orders.find({
-      user: userId,
-    });
+    const orderData = await orders
+      .find({
+        user: userId,
+      })
+      .populate("user", "username email");
 
     console.log("orders:", orderData);
 
