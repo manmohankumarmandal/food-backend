@@ -47,10 +47,11 @@ const getOrdersByUserId = async (req, res) => {
     }
 
     const orderData = await orders
-      .find({
-        user: userId,
-      })
-      .populate("user", "username email");
+  .find({
+    user: userId,
+  })
+  .populate("user", "username email")
+  .populate("items.foodId", "title");
 
     console.log("orders:", orderData);
 
